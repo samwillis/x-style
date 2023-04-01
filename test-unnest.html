@@ -1,0 +1,150 @@
+<script src="x-style.js"></script>
+<script src="x-style-unnest.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    [...document.querySelectorAll("pre")].forEach((pre) => {
+      const el = document.createElement("pre");
+      const unnested = xstyle.unnest(pre.textContent);
+      el.textContent = unnested;
+      pre.parentNode.appendChild(el);
+    });
+  });
+</script>
+
+<style>
+  div {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+  }
+  div > pre {
+    width: 50%;
+  }
+</style>
+
+<div>
+  <pre>
+.test1 {
+  background: #fff;
+  colour: #000;
+}
+
+.test2 {
+  background: #fff;
+  colour: #000;
+  .h1 {
+    color: #f00;
+  }
+  border: 1px solid #000;
+}
+
+/* comment */
+
+.test3,
+.testA {
+  color: red;
+  /*.test4,*/
+  &.test4 {
+    color: blue;
+    .test5 &,
+    &.test6 {
+      color: green;
+    }
+  }
+}
+
+.test7:has(.test9, .test10:has(.test11, .test12)) {
+  color: red;
+  &.test8 {
+    color: blue;
+  }
+}
+</pre>
+</div>
+
+<div>
+  <pre>
+.test1 {
+  background: #fff;
+  colour: #000;
+
+  @media (min-width: 600px) {
+    background: #fff;
+    colour: #000;
+  }
+}
+
+.test2 {
+  background: #fff;
+  colour: #000;
+
+  @media (min-width: 600px) {
+    .something {
+      font-weight: bold;
+    }
+  }
+}
+
+.test3 {
+  background: #fff;
+  colour: #000;
+
+  @media (min-width: 600px) {
+    @media (max-width: 1000px) {
+      .something {
+        colour: #F00;
+      }
+    }
+  }
+}
+
+</pre>
+</div>
+
+<div>
+  <pre>
+
+.test3 {
+  background: #fff;
+  colour: #000;
+
+  @media (min-width: 600px) {
+    div {
+      color: #f00;
+    }
+    p {
+      @media (max-width: 1000px) {
+        .something {
+          colour: #F00;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  div {
+    color: #f00;
+    div {
+      color: #0F0;
+    }
+  }
+}
+
+</pre>
+</div>
+
+<div>
+  <pre>
+
+.t1 {
+  color: red;
+  & .t2 & {
+    color: blue;
+    & .t3 & {
+      color: green;
+    }
+  }
+}
+
+</pre>
+</div>
