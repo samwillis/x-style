@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>x-style Demo</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      * {
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        line-height: 1.5;
+        font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      code,
+      kbd,
+      samp,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono",
+          Menlo, monospace;
+        font-size: 1em;
+      }
+
+      small {
+        font-size: 80%;
+      }
+
+      .test-class {
+        color: red;
+      }
+    </style>
+    <script src="x-style.js"></script>
+    <script src="x-style-envvar.js"></script>
+    <script src="x-style-apply.js"></script>
+    <script src="x-style-unnest.js"></script>
+    <script>
+      xstyle("x-style");
+      xstyle.env = {
+        "--env-var-test": "orange",
+      };
+    </script>
+    <script>
+      function testChange() {
+        const el = document.getElementById("testChange");
+        el.setAttribute(
+          "x-style",
+          `
+            color: blue;
+            & span {
+              color: red;
+            }
+          `
+        );
+      }
+      function testAdd() {
+        const el = document.createElement("li");
+        el.setAttribute(
+          "x-style",
+          `
+            color: orange;
+            &:hover {
+              background-color: yellow;
+            }
+            & span {
+              color: green;
+            }
+          `
+        );
+        el.innerHTML = "Test 4 <span>123</span>";
+        document.getElementById("testAdd").appendChild(el);
+      }
+    </script>
+  </head>
+  <body
+    x-style="
+    font
+  "
+  >
+    <div
+      x-style="
+      max-width: 640px;
+      margin: 0 auto;
+    "
+    >
+      <h1>x-style Demo</h1>
+      <p>This is a demo of the <code>x-style</code> attribute.</p>
+
+      <p
+        x-style="
+          color: red;
+          font-size: 30px;
+          &:hover {
+            background-color: yellow;
+          }
+          & > span {
+            color: green;
+          }
+        "
+      >
+        Hello <span>World</span> - Hover me!
+      </p>
+      <p
+      x-style="
+        color: red;
+        & span {
+          color: blue;
+        }
+        "
+      >
+        I'm red <span> and I'm blue</span>
+      </p>
+
+      <p
+        id="testChange"
+        x-style="
+          color: red;
+          & span {
+            color: blue;
+          }
+        "
+      >
+        I will change <span>to the other way around</span>
+        <button onclick="testChange()">Change Styles</button>
+      </p>
+      <p>
+        You can add elements with new styles
+        <button onclick="testAdd()">Add Element</button>
+      </p>
+      <ul id="testAdd"></ul>
+      <p x-style="
+        > code {
+          @apply test-class;
+        }
+      ">
+        You can <code>@apply</code> styles from classes.
+      </p>
+      <p x-style="
+        > code {
+          color: env(--env-var-test);
+        }
+      ">
+        You can use <code>env(--custom-var-name)</code> to include environment
+        variables, useful for media queries where you can't use <code>var()</code>.
+      </p>
+    </div>
+  </body>
+</html>
