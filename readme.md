@@ -42,19 +42,19 @@ plugin.
 ## Why?
 
 Untility class toolkits like Tailwind have shown that defining styles inline can be
-better than using a css file. It encapulates the style with the component, making it 
+better than using a css file. It encapsulated the style with the component, making it 
 easier to understand and maintain, this is known as 
-[locality of behavour](https://htmx.org/essays/locality-of-behaviour/). 
+["locality of behavour"](https://htmx.org/essays/locality-of-behaviour/). 
 When used in combination with a component based framework it results in a very clean 
 and maintainable code.
 
 However, increasingly these frameworks are implimenting more and more css as classes, 
 creating a domain specific language shoe horned into the css class system that is not 
 easy to understand. The aim of x-style is to allow this locality of behavour, but by 
-using native css syntax. Additionally these toolkits require seporate tooling or build 
+using native css syntax. Additionally these toolkits require separate tooling or build 
 steps, neither of which are needed with x-style.
 
-z-style is the ideal companion to tools such as [htmx](http://htmx.org) and 
+x-style is the ideal companion to tools such as [htmx](http://htmx.org) and 
 [Alpine.js](http://alpinejs.dev).
 
 ## How to use
@@ -98,6 +98,9 @@ xstyle("x-style");
 This is both the core x-style code and the unnest plugin. The `xstyle("x-style")`
 activates the library, it will find all elements with the `x-style` attribute and
 process their styles.
+
+Alternativly you can link to the x-style code and plugins directly, howevere as they are
+tiny it is bette, and quicker, to inline them.
 
 There is an optional second boolean parameter that will add a `x-style-match` attribute
 to the elements that have had their styles applied. This is used instead of what can
@@ -144,20 +147,20 @@ the "at" rules to the top level.
 
 The implimentation is not perfect, but it works well enough for most cases. This is
 intentional so as to keep the code small and fast. An alternative would be to used
-a browser build of postcss, but that would be about 100kb and async resulting in a
-flash of unstyled content.
+a browser build of postcss, but that would be about 100kb (100x the size of x-style) 
+and async resulting in a flash of unstyled content.
 
 ### x-style-envvar.js
 
 The envvar plugin adds support for custom 
 [environment variables](https://developer.mozilla.org/en-US/docs/Web/CSS/env)
 in styles. As it's not possible to use `var()` in media queries (custom properties are 
-part of the cascade and reqire a DOM node which media queries dont have), this plugin 
-also adds support for defining custom enviroment varibles which are then substituted in 
+part of the cascade and reqire a DOM node which media queries don't have), this plugin 
+adds support for defining custom enviroment varibles which are then substituted in 
 your css. Custom environment varibles are planned for css, but there is not yet any 
 standard for defining them.
 
-You define a custom environment variables via js like this:
+You define custom environment variables for x-style via js like this:
 
 ```js
 xstyle.env = {
@@ -165,7 +168,7 @@ xstyle.env = {
 };
 ```
 
-You can then use the custom environment variable in your css like this:
+You can then use the custom environment variables in your css like this:
 
 ```css
 @media (min-width: env(--my-break-point)) {
@@ -214,8 +217,8 @@ You can then use it like this:
 </div>
 ```
 
-This is not a official standard, and is unlikely to be, but it's a very useful feature.
-
+This is not a official standard, and is unlikely to be, but it's a very useful feature. 
+However it is recommented that you use `var()` instead as it's a standard.
 
 To use the plugin, add the following to the xstyle `<script>` in the `<head>`
 immediately after the xstyle code but befor the `xstyle("x-style")` call:
