@@ -1,5 +1,5 @@
 {
-  "name": "x-style",
+  "name": "@sgwillis/x-style",
   "version": "0.0.1",
   "description": "A Tiny Inline Nested CSS Library",
   "main": "dist/x-style-all.min.js",
