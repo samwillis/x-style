@@ -97,6 +97,16 @@ This is both the core x-style code and the unnest plugin. The `xstyle("x-style")
 activates the library, it will find all elements with the `x-style` attribute and
 process their styles.
 
+There is an optional second boolean parameter that will add a `x-style-match` attribute
+to the elements that have had their styles applied. This is used instead of what can
+be a very long `x-style` attribute value for the seelector. However as this mutatese the
+DOM it may cause problems with some frameworks, the defult behaviour does not mutate
+the DOM at all.
+
+```js
+xstyle("x-style", true);
+```
+
 See below for details on activating the `envvar` and `@apply` plugins.
 
 ## Plugins:
