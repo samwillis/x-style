@@ -114,6 +114,15 @@ xstyle("x-style", true);
 
 See below for details on activating the `envvar` and `@apply` plugins.
 
+Finally, you can also load it from a cdn:
+
+```html
+<script src="https://www.unpkg.com/@sgwillis/x-style@0.0.1/dist/x-style-all.min.js"></script>
+<script>
+xstyle("x-style");
+</script>
+```
+
 ## Plugins:
 
 There are a number of tiny plugins that add extra functionality to x-style. At a minimum
