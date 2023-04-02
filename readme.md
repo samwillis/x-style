@@ -32,25 +32,25 @@ styles and apply them. If you add additional elements or change styles after the
 loads the library will automatically update the styles.
 
 x-style is tiny, as little as 1.8kb with the unnest plugin or 856 bytes without,
-and designed to be pasted directily into your html, this ensures that it runs 
+and designed to be pasted directly into your html, this ensures that it runs 
 synchronously, as your pages loads, with no FOUC (flash of unstyled content).
 
-In the newsest browseres - Chrome 112+ and Safari Tech Preview - the nested styles work
+In the newest browsers - Chrome 112+ and Safari Tech Preview - the nested styles work
 without any extra code, but for "older" browsers you need to use the `x-style-unnest.js`
 plugin.
 
 ## Why?
 
-Untility class toolkits like Tailwind have shown that defining styles inline can be
+Utility class toolkits like Tailwind have shown that defining styles inline can be
 better than using a css file. It encapsulated the style with the component, making it 
 easier to understand and maintain, this is known as 
-["locality of behavour"](https://htmx.org/essays/locality-of-behaviour/). 
+["locality of behaviour"](https://htmx.org/essays/locality-of-behaviour/). 
 When used in combination with a component based framework it results in a very clean 
 and maintainable code.
 
-However, increasingly these frameworks are implimenting more and more css as classes, 
+However, increasingly these frameworks are implementing more and more css as classes, 
 creating a domain specific language shoe horned into the css class system that is not 
-easy to understand. The aim of x-style is to allow this locality of behavour, but by 
+easy to understand. The aim of x-style is to allow this locality of behaviour, but by 
 using native css syntax. Additionally these toolkits require separate tooling or build 
 steps, neither of which are needed with x-style.
 
@@ -59,7 +59,7 @@ x-style is the ideal companion to tools such as [htmx](http://htmx.org) and
 
 ## How to use
 
-The recommented minimal setup is to add this to your `<head>` directily before `</head>`:
+The recommended minimal setup is to add this to your `<head>` directly before `</head>`:
 
 ```html
 <script>
@@ -99,13 +99,13 @@ This is both the core x-style code and the unnest plugin. The `xstyle("x-style")
 activates the library, it will find all elements with the `x-style` attribute and
 process their styles.
 
-Alternativly you can link to the x-style code and plugins directly, howevere as they are
+Alternatively you can link to the x-style code and plugins directly, however as they are
 tiny it is bette, and quicker, to inline them.
 
 There is an optional second boolean parameter that will add a `x-style-match` attribute
 to the elements that have had their styles applied. This is used instead of what can
-be a very long `x-style` attribute value for the seelector. However as this mutatese the
-DOM it may cause problems with some frameworks, the defult behaviour does not mutate
+be a very long `x-style` attribute value for the selector. However as this mutates the
+DOM it may cause problems with some frameworks, the default behaviour does not mutate
 the DOM at all.
 
 ```js
@@ -154,7 +154,7 @@ div[x-style="xxx"] > span {
 It also supports the `@media`, `@supports` and other `@` rules, correctly promoting
 the "at" rules to the top level.
 
-The implimentation is not perfect, but it works well enough for most cases. This is
+The implementation is not perfect, but it works well enough for most cases. This is
 intentional so as to keep the code small and fast. An alternative would be to used
 a browser build of postcss, but that would be about 100kb (100x the size of x-style) 
 and async resulting in a flash of unstyled content.
@@ -164,9 +164,9 @@ and async resulting in a flash of unstyled content.
 The envvar plugin adds support for custom 
 [environment variables](https://developer.mozilla.org/en-US/docs/Web/CSS/env)
 in styles. As it's not possible to use `var()` in media queries (custom properties are 
-part of the cascade and reqire a DOM node which media queries don't have), this plugin 
-adds support for defining custom enviroment varibles which are then substituted in 
-your css. Custom environment varibles are planned for css, but there is not yet any 
+part of the cascade and require a DOM node which media queries don't have), this plugin 
+adds support for defining custom environment variables which are then substituted in 
+your css. Custom environment variables are planned for css, but there is not yet any 
 standard for defining them.
 
 You define custom environment variables for x-style via js like this:
@@ -185,7 +185,7 @@ You can then use the custom environment variables in your css like this:
 }
 ```
 
-Note that this implimentation of enviroment variablese does not update the css when the
+Note that this implementation of environment variables does not update the css when the
 value changes.
 
 To use the plugin, add the following to the x-style `<script>` in the `<head>`
@@ -227,10 +227,10 @@ You can then use it like this:
 ```
 
 This is not a official standard, and is unlikely to be, but it's a very useful feature. 
-However it is recommented that you use `var()` instead as it's a standard.
+However it is recommended that you use `var()` instead as it's a standard.
 
 To use the plugin, add the following to the xstyle `<script>` in the `<head>`
-immediately after the xstyle code but befor the `xstyle("x-style")` call:
+immediately after the xstyle code but before the `xstyle("x-style")` call:
 
 ```html
 (()=>{var s=/@apply ([^;}$]*);?/g,n={},t=e=>{if("."!==e[0]&&(e="."+e),n[e]
