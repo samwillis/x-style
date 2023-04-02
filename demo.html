@@ -106,10 +106,14 @@
           }
           & > span {
             color: green;
+            &::after {
+              display: inline;
+              content: '!';
+            }
           }
         "
       >
-        Hello <span>World</span> - Hover me!
+        Hello <span>World</span> - (Hover me)
       </p>
       <p
       x-style="
