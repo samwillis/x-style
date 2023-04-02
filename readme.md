@@ -24,6 +24,8 @@ define style where they are being used with the new nested syntax:
 </div>
 ```
 
+See the [demo](http://samwillis.co.uk/x-style/) for more examples.
+
 The styles are only parsed once so repeated use of the same style is very fast, the
 library uses a `[x-style="${CSS.escape(cssFromAttribute)}"]` selector to find the
 styles and apply them. If you add additional elements or change styles after the page 
