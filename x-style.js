@@ -10,11 +10,11 @@
   /**
    * x-style
    * @param {string} attr - HTML attribute that contains the css, usually "css"
-   * @param {boolean} [addAttributeForSelector] - Generate an attribute to use as the selector
+   * @param {boolean} [noMutate] - Don't mutate the DOM by adding attributes
    */
-  var xstyle = (attr, addAttributeForSelector) => {
+  var xstyle = (attr, noMutate) => {
     var styleEl;
-    var microtaskQueued;
+    var style = "";
     var selectorCount = 0;
     var processedCss = new Map();
     var attributeForSelector = `${attr}-match`;
@@ -33,7 +33,18 @@
           }
         }
       }
+      emitStyle();
     });
+
+    var emitStyle = () => {
+      if (style) {
+        styleEl = doc.createElement("style");
+        styleEl.appendChild(doc.createTextNode(style));
+        doc.head.appendChild(styleEl);
+        styleEl = null;
+        style = "";
+      }
+    };
 
     /**
      * Process an element.
@@ -46,8 +57,8 @@
     var processEl = (el) => {
       var rawCss = el.getAttribute(attr);
       if (!rawCss || processedCss.has(rawCss)) {
-        if (addAttributeForSelector) {
-          el.setAttribute(attributeForSelector, processedCss.get(rawCss));
+        if (!noMutate) {
+          el.setAttribute(`${attributeForSelector}-${processedCss.get(rawCss)}`, '');
         }
         return;
       }
@@ -55,31 +66,21 @@
       processedCss.set(rawCss, selectorCount);
 
       var css;
-      if (addAttributeForSelector) {
-        el.setAttribute(attributeForSelector, selectorCount);
-        css = `[${attributeForSelector}="${selectorCount}"]`;
-      } else {
+      if (noMutate) {
         css = `[${attr}="${CSS.escape(rawCss)}"]`;
+      } else {
+        el.setAttribute(`${attributeForSelector}-${processedCss.get(rawCss)}`, '');
+        css = `[${attributeForSelector}-${processedCss.get(rawCss)}]`;
       }
       pluginsPre.forEach((plugin) => rawCss = plugin(rawCss));
       css += ` { ${rawCss} }`;
       pluginsPost.forEach((plugin) => css = plugin(css));
-      if (!styleEl) {
-        styleEl = doc.createElement("style");
-      }
-      styleEl.appendChild(doc.createTextNode(css));
-
-      if (!microtaskQueued) {
-        microtaskQueued = true;
-        queueMicrotask(() => {
-          doc.head.appendChild(styleEl);
-          styleEl = null;
-          microtaskQueued = false;
-        });
-      }
+      style += css;
+      style += "\n";
     };
 
     querySelectorAll(doc, `[${attr}]`).forEach(processEl);
+    emitStyle();
     observer.observe(doc.documentElement, {
       attributes: true,
       attributeFilter: [attr],
@@ -90,7 +91,7 @@
 
   xstyle.pre = pluginsPre;
   xstyle.post = pluginsPost;
-  xstyle.version = "0.0.1";
+  xstyle.version = "0.0.2";
 
   window.xstyle = xstyle;
 })();
