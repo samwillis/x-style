@@ -27,9 +27,9 @@ define style where they are being used with the new nested syntax:
 See the [demo](http://samwillis.co.uk/x-style/) for more examples.
 
 The styles are only parsed once so repeated use of the same style is very fast, the
-library uses a `[x-style="${CSS.escape(cssFromAttribute)}"]` selector to find the
+library an attribute to each element for use by a css selector to find the
 styles and apply them. If you add additional elements or change styles after the page 
-loads the library will automatically update the styles.
+loads the library will automatically find and update the styles.
 
 x-style is tiny, as little as 1.8kb with the unnest plugin or 856 bytes without,
 and designed to be pasted directly into your html, this ensures that it runs 
@@ -64,18 +64,18 @@ The recommended minimal setup is to add this to your `<head>` directly before `<
 ```html
 <script>
 // x-style core:
-(()=>{var u=document,h=(e,t)=>e.querySelectorAll(t),f=[],b=[],e=(a,i)=>{var s,o,
-l=0,c=new Map,d=a+"-match",e=new MutationObserver(e=>{for(var t of e)if(
-"attributes"===t.type)n(t.target);else if("childList"===t.type)for(
-var r of t.addedNodes)r instanceof HTMLElement&&(r.hasAttribute(a)&&n(r),[...h(r
-,`[${a}]`)].forEach(n))}),n=e=>{var t,r=e.getAttribute(a);!r||c.has(r
-)?i&&e.setAttribute(d,c.get(r)):(l++,c.set(r,l),t=i?(e.setAttribute(d,l),
-`[${d}="${l}"]`):`[${a}="${CSS.escape(r)}"]`,f.forEach(e=>r=e(r)),t+=` { ${r} }`
-,b.forEach(e=>t=e(t)),(s=s||u.createElement("style")).appendChild(
-u.createTextNode(t)),o||(o=!0,queueMicrotask(()=>{u.head.appendChild(s),s=null,
-o=!1})))};h(u,`[${a}]`).forEach(n),e.observe(u.documentElement,{attributes:!0,
-attributeFilter:[a],childList:!0,subtree:!0})};e.pre=f,e.post=b,
-e.version="0.0.1",window.xstyle=e})();
+(()=>{var r=document,u=(e,t)=>e.querySelectorAll(t),h=[],f=[],e=(a,i)=>{var e,
+s="",o=0,l=new Map,n=a+"-match",t=new MutationObserver(e=>{for(var t of e)if(
+"attributes"===t.type)c(t.target);else if("childList"===t.type)for(
+var r of t.addedNodes)r instanceof HTMLElement&&(r.hasAttribute(a)&&c(r),[...u(r
+,`[${a}]`)].forEach(c));d()}),d=()=>{s&&((e=r.createElement("style")
+).appendChild(r.createTextNode(s)),r.head.appendChild(e),e=null,s="")},c=e=>{
+var t,r=e.getAttribute(a);!r||l.has(r)?i||e.setAttribute(n+"-"+l.get(r),""):(o++
+,l.set(r,o),t=i?`[${a}="${CSS.escape(r)}"]`:(e.setAttribute(n+"-"+l.get(r),""),
+`[${n}-${l.get(r)}]`),h.forEach(e=>r=e(r)),t+=` { ${r} }`,f.forEach(e=>t=e(t)),
+s=s+t+"\n")};u(r,`[${a}]`).forEach(c),d(),t.observe(r.documentElement,{
+attributes:!0,attributeFilter:[a],childList:!0,subtree:!0})};e.pre=h,e.post=f,
+e.version="0.0.2",window.xstyle=e})();
 // x-style unnest plugin:
 (()=>{var c=CSS.supports("selector(&)"),r=window.xstyle,e=r=>{if(c)return r;
 r=r.replace(/\/\*[^*]*\*+([^/][^*]*\*+)*\//g,"");for(var e,t,s,a="",p="",h=0,
@@ -102,11 +102,11 @@ process their styles.
 Alternatively you can link to the x-style code and plugins directly, however as they are
 tiny it is bette, and quicker, to inline them.
 
-There is an optional second boolean parameter that will add a `x-style-match` attribute
-to the elements that have had their styles applied. This is used instead of what can
-be a very long `x-style` attribute value for the selector. However as this mutates the
-DOM it may cause problems with some frameworks, the default behaviour does not mutate
-the DOM at all.
+There is an optional second boolean parameter that disables adding a `x-style-match` 
+attribute to the elements that have had their styles applied. Instead the naked 
+`x-style` attribute value if used for the selector, but this can be quite slow. As this 
+mutates the DOM it may cause problems with some frameworks, if so set this to `true` to 
+disable the behaviour.
 
 ```js
 xstyle("x-style", true);
