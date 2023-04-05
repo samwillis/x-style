@@ -15,7 +15,7 @@ d=e=>{var t,r=e.getAttribute(a);!r||n.has(r)?i||c(e,r):(n.set(r,++s),
 t=i?`[${a}="${CSS.escape(r)}"]`:`[${c(e,r)}]`,h.forEach(e=>r=e(r)),
 t+=` { ${r} }`,b.forEach(e=>t=e(t)),o+=t+"\n")};f(r,`[${a}]`).forEach(d),u(),
 t.observe(r.documentElement,{attributes:!0,attributeFilter:[a],childList:!0,
-subtree:!0})};e.pre=h,e.post=b,e.version="0.0.2",window.xstyle=e})();
+subtree:!0})};e.pre=h,e.post=b,e.version="0.0.3",window.xstyle=e})();
 (()=>{var c=CSS.supports("selector(&)"),r=window.xstyle,e=r=>{if(c)return r;
 r=r.replace(/\/\*[^*]*\*+([^/][^*]*\*+)*\//g,"");for(var e,t,s,a="",p="",h=0,
 i="",l=r.length,n=[],o=[],u=()=>{i.match(/\S/)&&(p+=n[n.length-1]+"{"+i+"}",i=""

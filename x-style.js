@@ -98,7 +98,7 @@
 
   xstyle.pre = pluginsPre;
   xstyle.post = pluginsPost;
-  xstyle.version = "0.0.2";
+  xstyle.version = "0.0.3";
 
   window.xstyle = xstyle;
 })();

@@ -64,18 +64,18 @@ The recommended minimal setup is to add this to your `<head>` directly before `<
 ```html
 <script>
 // x-style core:
-(()=>{var r=document,u=(e,t)=>e.querySelectorAll(t),h=[],f=[],e=(a,i)=>{var e,
-s="",o=0,l=new Map,n=a+"-match",t=new MutationObserver(e=>{for(var t of e)if(
-"attributes"===t.type)c(t.target);else if("childList"===t.type)for(
-var r of t.addedNodes)r instanceof HTMLElement&&(r.hasAttribute(a)&&c(r),[...u(r
-,`[${a}]`)].forEach(c));d()}),d=()=>{s&&((e=r.createElement("style")
-).appendChild(r.createTextNode(s)),r.head.appendChild(e),e=null,s="")},c=e=>{
-var t,r=e.getAttribute(a);!r||l.has(r)?i||e.setAttribute(n+"-"+l.get(r),""):(o++
-,l.set(r,o),t=i?`[${a}="${CSS.escape(r)}"]`:(e.setAttribute(n+"-"+l.get(r),""),
-`[${n}-${l.get(r)}]`),h.forEach(e=>r=e(r)),t+=` { ${r} }`,f.forEach(e=>t=e(t)),
-s=s+t+"\n")};u(r,`[${a}]`).forEach(c),d(),t.observe(r.documentElement,{
-attributes:!0,attributeFilter:[a],childList:!0,subtree:!0})};e.pre=h,e.post=f,
-e.version="0.0.2",window.xstyle=e})();
+(()=>{var r=document,f=(e,t)=>e.querySelectorAll(t),h=[],b=[],e=(a,i)=>{var e,
+o="",s=0,n=new Map,l=a+"-match",t=new MutationObserver(e=>{for(var t of e)if(
+"attributes"===t.type)d(t.target);else if("childList"===t.type)for(
+var r of t.addedNodes)r instanceof HTMLElement&&(r.hasAttribute(a)&&d(r),[...f(r
+,`[${a}]`)].forEach(d));u()}),u=()=>{o&&((e=r.createElement("style")
+).innerHTML=o,r.head.appendChild(e),e=null,o="")},c=(e,t)=>{var t=l+"-"+n.get(t)
+,r="__"+l;return e[r]&&e.removeAttribute(e[r]),e.setAttribute(t,""),e[r]=t},
+d=e=>{var t,r=e.getAttribute(a);!r||n.has(r)?i||c(e,r):(n.set(r,++s),
+t=i?`[${a}="${CSS.escape(r)}"]`:`[${c(e,r)}]`,h.forEach(e=>r=e(r)),
+t+=` { ${r} }`,b.forEach(e=>t=e(t)),o+=t+"\n")};f(r,`[${a}]`).forEach(d),u(),
+t.observe(r.documentElement,{attributes:!0,attributeFilter:[a],childList:!0,
+subtree:!0})};e.pre=h,e.post=b,e.version="0.0.3",window.xstyle=e})();
 // x-style unnest plugin:
 (()=>{var c=CSS.supports("selector(&)"),r=window.xstyle,e=r=>{if(c)return r;
 r=r.replace(/\/\*[^*]*\*+([^/][^*]*\*+)*\//g,"");for(var e,t,s,a="",p="",h=0,
