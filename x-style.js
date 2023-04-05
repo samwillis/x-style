@@ -39,11 +39,22 @@
     var emitStyle = () => {
       if (style) {
         styleEl = doc.createElement("style");
-        styleEl.appendChild(doc.createTextNode(style));
+        styleEl.innerHTML = style;
         doc.head.appendChild(styleEl);
         styleEl = null;
         style = "";
       }
+    };
+
+    var setAttribute = (el, rawCss) => {
+      var selectorAttr = `${attributeForSelector}-${processedCss.get(rawCss)}`;
+      var prop = '__'+attributeForSelector;
+      if (el[prop]) {
+        el.removeAttribute(el[prop]);
+      }
+      el.setAttribute(selectorAttr, '');
+      el[prop] = selectorAttr;
+      return selectorAttr;
     };
 
     /**
@@ -56,27 +67,23 @@
      */
     var processEl = (el) => {
       var rawCss = el.getAttribute(attr);
+      var css;
       if (!rawCss || processedCss.has(rawCss)) {
         if (!noMutate) {
-          el.setAttribute(`${attributeForSelector}-${processedCss.get(rawCss)}`, '');
+          setAttribute(el, rawCss);
         }
         return;
       }
-      selectorCount++;
-      processedCss.set(rawCss, selectorCount);
-
-      var css;
+      processedCss.set(rawCss, ++selectorCount);
       if (noMutate) {
         css = `[${attr}="${CSS.escape(rawCss)}"]`;
       } else {
-        el.setAttribute(`${attributeForSelector}-${processedCss.get(rawCss)}`, '');
-        css = `[${attributeForSelector}-${processedCss.get(rawCss)}]`;
+        css = `[${setAttribute(el, rawCss)}]`;
       }
       pluginsPre.forEach((plugin) => rawCss = plugin(rawCss));
       css += ` { ${rawCss} }`;
       pluginsPost.forEach((plugin) => css = plugin(css));
-      style += css;
-      style += "\n";
+      style += css + "\n";
     };
 
     querySelectorAll(doc, `[${attr}]`).forEach(processEl);

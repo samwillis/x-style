@@ -1,0 +1,74 @@
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script>
+  function run(test) {
+    const promise = new Promise((resolve) => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `./${test.name}.html`;
+      iframe.onload = () => {
+        const perfData = iframe.contentWindow.performance.timing;
+        test.status = 'done';
+        test.runCount++;
+        test.totalTime += perfData.loadEventEnd - perfData.navigationStart;
+        iframe.remove();
+        resolve();
+      }
+      document.body.appendChild(iframe);
+    })
+    return promise;
+  }
+
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('benchmark', () => ({
+      tests: [
+        'typical-benchmark-classes',
+        'typical-benchmark-styles',
+        'typical-benchmark-x-styles',
+        'typical-benchmark-x-styles-no-mutate',
+        'max-benchmark-classes',
+        'max-benchmark-styles',
+        'max-benchmark-x-styles',
+        'max-benchmark-x-styles-no-mutate',
+      ].map((name) => ({
+        name,
+        status: 'pending',
+        result: null,
+        runCount: 0,
+        totalTime: 0,
+      })),
+      async run() {
+        const total = 20;
+        for (const test of this.tests) {
+          for (let i = 0; i < total; i++) {
+            test.status = `running ${i + 1}/${total}`;
+            await run(test);
+          }
+        }
+      }
+    }))
+  })
+</script>
+</head>
+<body>
+<h1>x-style benchmark</h1>
+<div x-data="benchmark">
+  <button @click="run">Run</button>
+  <table>
+    <tr>
+      <th>Test</th>
+      <th>Status</th>
+      <th>Avg Time (ms)</th>
+    </tr>
+    <template x-for="test in tests" :key="test.name">
+      <tr>
+        <td x-text="test.name"></td>
+        <td x-text="test.status"></td>
+        <td x-text="test.totalTime / test.runCount"></td>
+      </tr>
+    </template>
+  </table>
+</div>
+</body>
+</html>
