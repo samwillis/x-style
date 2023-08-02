@@ -27,17 +27,18 @@ define style where they are being used with the new nested syntax:
 See the [demo](http://samwillis.co.uk/x-style/) for more examples.
 
 The styles are only parsed once so repeated use of the same style is very fast, the
-library an attribute to each element for use by a css selector to find the
-styles and apply them. If you add additional elements or change styles after the page 
+library adds an attribute to each element for use by a css selector to find the
+styles and apply them. Repeated use of the same `x-style` value uses the sate generated
+stylesheet. If you add additional elements or change styles after the page 
 loads the library will automatically find and update the styles.
 
-x-style is tiny, as little as 1.8kb with the unnest plugin or 856 bytes without,
+x-style is tiny, as little as 1.8kb with the un-nest plugin or 856 bytes without,
 and designed to be pasted directly into your html, this ensures that it runs 
 synchronously, as your pages loads, with no FOUC (flash of unstyled content).
 
-In the newest browsers - Chrome 112+ and Safari Tech Preview - the nested styles work
+In the newest browsers - Chrome 112+, Safari 16.5+ and Firefox 117+ - the nested styles work
 without any extra code, but for "older" browsers you need to use the `x-style-unnest.js`
-plugin.
+plugin. See https://caniuse.com/css-nesting.
 
 ## Why?
 
@@ -49,7 +50,7 @@ When used in combination with a component based framework it results in a very c
 and maintainable code.
 
 However, increasingly these frameworks are implementing more and more css as classes, 
-creating a domain specific language shoe horned into the css class system that is not 
+creating a domain specific language shoehorned into the css class system that is not 
 easy to understand. The aim of x-style is to allow this locality of behaviour, but by 
 using native css syntax. Additionally these toolkits require separate tooling or build 
 steps, neither of which are needed with x-style.
@@ -100,13 +101,13 @@ activates the library, it will find all elements with the `x-style` attribute an
 process their styles.
 
 Alternatively you can link to the x-style code and plugins directly, however as they are
-tiny it is bette, and quicker, to inline them.
+tiny it is better, and faster, to inline them.
 
 There is an optional second boolean parameter that disables adding a `x-style-match` 
 attribute to the elements that have had their styles applied. Instead the naked 
-`x-style` attribute value if used for the selector, but this can be quite slow. As this 
-mutates the DOM it may cause problems with some frameworks, if so set this to `true` to 
-disable the behaviour.
+`x-style` attribute value if used for the selector, but this can be quite slow. As the 
+defualt behavour mutates the DOM it may cause problems with some frameworks, if so set 
+this to `true` to disable the behaviour.
 
 ```js
 xstyle("x-style", true);
@@ -139,14 +140,14 @@ does this by parsing the style and unnesting it, so the above example would be
 converted to:
 
 ```css
-div[x-style="xxx"] {
+div[x-style-match-1] {
   color: red;
   font-size: 30px;
 }
-div[x-style="xxx"]:hover {
+div[x-style-match-1]:hover {
   background-color: yellow;
 }
-div[x-style="xxx"] > span {
+div[x-style-match-1] > span {
   color: green;
 }
 ```
@@ -157,7 +158,7 @@ the "at" rules to the top level.
 The implementation is not perfect, but it works well enough for most cases. This is
 intentional so as to keep the code small and fast. An alternative would be to used
 a browser build of postcss, but that would be about 100kb (100x the size of x-style) 
-and async resulting in a flash of unstyled content.
+and async, resulting in a flash of unstyled content.
 
 ### x-style-envvar.js
 
