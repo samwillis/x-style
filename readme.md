@@ -40,6 +40,10 @@ In the newest browsers - Chrome 112+, Safari 16.5+ and Firefox 117+ - the nested
 without any extra code, but for "older" browsers you need to use the `x-style-unnest.js`
 plugin. See https://caniuse.com/css-nesting.
 
+There is a [small benchmark](http://samwillis.co.uk/x-style/benchmark/run.html) that shows 
+for a typical tailwind page with about 400 style classes the overhead of x-style is about 
+5ms on load.
+
 ## Why?
 
 Utility class toolkits like Tailwind have shown that defining styles inline can be
