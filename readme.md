@@ -1,7 +1,8 @@
-# x-style - A Tiny Inline Nested CSS Library
+# x-style (Extract Style) - A Tiny Inline Nested CSS Library
 
 x-style is a tiny library that adds full css support to inline styles, allowing you to
-define style where they are being used with the new nested syntax:
+define style where they are being used with the new nested syntax. It does this by extracting
+inline stiles from your html on the fly:
 
 ```html
 <div
@@ -26,7 +27,7 @@ define style where they are being used with the new nested syntax:
 
 See the [demo](http://samwillis.co.uk/x-style/) for more examples.
 
-The styles are only parsed once so repeated use of the same style is very fast, the
+The styles are only parsed once so *repeated use of the same style is very fast*, the
 library adds an attribute to each element for use by a css selector to find the
 styles and apply them. Repeated use of the same `x-style` value uses the sate generated
 stylesheet. If you add additional elements or change styles after the page 
