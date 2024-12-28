@@ -15,11 +15,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-x-style": "uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style.min.js -- x-style.js",
+    "build-x-style-nano": "uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style-nano.min.js -- x-style-nano.js",
     "build-x-style-apply": "uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style-apply.min.js -- x-style-apply.js",
     "build-x-style-envvar": "uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style-envvar.min.js -- x-style-envvar.js",
     "build-x-style-unnest": "uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style-unnest.min.js -- x-style-unnest.js",
     "build-x-style-all": "mkdir build && cat x-style.js x-style-apply.js x-style-envvar.js x-style-unnest.js > build/x-style-all.js && uglifyjs -c -m -b max_line_len=80,beautify=false -o dist/x-style-all.min.js -- build/x-style-all.js && rm -rf ./build",
-    "build": "npm run build-x-style && npm run build-x-style-apply && npm run build-x-style-envvar && npm run build-x-style-unnest && npm run build-x-style-all"
+    "build": "npm run build-x-style && npm run build-x-style-nano && npm run build-x-style-apply && npm run build-x-style-envvar && npm run build-x-style-unnest && npm run build-x-style-all"
   },
   "author": "Sam Willis",
   "license": "MIT",
